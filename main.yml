@@ -1,0 +1,8 @@
+---
+- hosts: lxc
+  gather_facts: no
+  vars_files:
+    - shared/vars/static.yml
+    - shared/vars/dynamic.yml
+  roles:
+    - ansible-role-mariadb
