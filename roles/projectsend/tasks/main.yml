@@ -16,16 +16,15 @@
 
 - name: Create /var/www/html
   ansible.builtin.file:
-    path: /var/www/html
+    path: /var/www/
     state: directory
     recurse: yes
 
 - name: Unzip archive
   ansible.builtin.unarchive:
     src: /tmp/projectsend-latest.zip
-    dest: /var/www/html
     remote_src: yes
-    extra_opts: "-j"
+    extra_opts: "-d /var/www/html"
 
 - name: Rename sys.config
   ansible.builtin.copy:
