@@ -1,9 +1,5 @@
 ---
 - hosts: zizi
   gather_facts: yes
-  vars_files:
-    - shared/vars/dynamic.yml
   roles:
-    # - nginxinc.nginx
-    # - ansible-role-mariadb-main
-    - projectsend
+    - nginx 

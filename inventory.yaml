@@ -1,4 +1,12 @@
 all:
   hosts:
-    zizi:
-      ansible_host: "zizi"
+    localhost:
+      ansible_host: "localhost"
+    web1:
+      ansible_host: "web1.lxd"
+    web2:
+      ansible_host: "web2.lxd"
+    web3:
+      ansible_host: "web3.lxd"
+    web4:
+      ansible_host: "web4.lxd"
