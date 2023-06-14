@@ -1,3 +1,8 @@
+- name: Install PHP dependencies
+  ansible.builtin.apt:
+    name: [ "php", "php-pdo", "php-xml", "php-zip"]
+    update_cache: yes
+
 - name: Get latest .zip url
   ansible.builtin.uri:
     url: https://api.github.com/repos/projectsend/projectsend/releases/81136228
@@ -7,32 +12,53 @@
 - name: Download .zip
   ansible.builtin.get_url:
     url: "{{ github_response.json.zipball_url }}"
-    dest: /root/tmp/projectsend-latest.zip
+    dest: /tmp/projectsend-latest.zip
+
+- name: Create /var/www/html
+  ansible.builtin.file:
+    path: /var/www/html
+    state: directory
+    recurse: yes
 
 - name: Unzip archive
   ansible.builtin.unarchive:
-    src: /root/tmp/projectsend-latest.zip
+    src: /tmp/projectsend-latest.zip
     dest: /var/www/html
+    remote_src: yes
+    extra_opts: "-j"
 
 - name: Rename sys.config
   ansible.builtin.copy:
     src: /var/www/html/includes/sys.config.sample.php
     dest: /var/www/html/includes/sys.config.php
+    remote_src: yes
 
 - name: Change database sys.config
   block:
     - name: Set DB name
       ansible.builtin.lineinfile:
         path: /var/www/html/includes/sys.config.php
-        regexp: "^define('DB_NAME'"
+        regexp: "^define('DB_NAME')"
         line: "define('DB_NAME', '{{ db_name }}');"
     - name: Set DB name
       ansible.builtin.lineinfile:
         path: /var/www/html/includes/sys.config.php
-        regexp: "^define('DB_USER'"
+        regexp: "^define('DB_USER')"
         line: "define('DB_USER', '{{ db_user }}');"
     - name: Set DB name
       ansible.builtin.lineinfile:
         path: /var/www/html/includes/sys.config.php
-        regexp: "^define('DB_PASSWORD'"
+        regexp: "^define('DB_PASSWORD')"
         line: "define('DB_PASSWORD', '{{ db_password }}');"
+
+- name: Copy nginx conf
+  ansible.builtin.copy:
+    src: default.conf
+    dest: /etc/nginx/conf.d/default.conf
+
+- name: Create /var/www/html
+  ansible.builtin.file:
+    path: /var/www/html
+    state: directory
+    mode: 0777
+    recurse: yes

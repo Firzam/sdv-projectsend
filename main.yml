@@ -1,10 +1,9 @@
 ---
-- hosts: lxc
-  gather_facts: no
+- hosts: zizi
+  gather_facts: yes
   vars_files:
-    - shared/vars/static.yml
     - shared/vars/dynamic.yml
   roles:
     - nginxinc.nginx
-    - ansible-role-mariadb
+    - ansible-role-mariadb-main
     - projectsend

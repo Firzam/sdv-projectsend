@@ -1,0 +1,4 @@
+all:
+  hosts:
+    zizi:
+      ansible_host: "zizi"
