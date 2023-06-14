@@ -1,0 +1,38 @@
+- name: Get latest .zip url
+  ansible.builtin.uri:
+    url: https://api.github.com/repos/projectsend/projectsend/releases/81136228
+    return_content: true
+  register: github_response
+
+- name: Download .zip
+  ansible.builtin.get_url:
+    url: "{{ github_response.json.zipball_url }}"
+    dest: /root/tmp/projectsend-latest.zip
+
+- name: Unzip archive
+  ansible.builtin.unarchive:
+    src: /root/tmp/projectsend-latest.zip
+    dest: /var/www/html
+
+- name: Rename sys.config
+  ansible.builtin.copy:
+    src: /var/www/html/includes/sys.config.sample.php
+    dest: /var/www/html/includes/sys.config.php
+
+- name: Change database sys.config
+  block:
+    - name: Set DB name
+      ansible.builtin.lineinfile:
+        path: /var/www/html/includes/sys.config.php
+        regexp: "^define('DB_NAME'"
+        line: "define('DB_NAME', 'projectsend');"
+    - name: Set DB name
+      ansible.builtin.lineinfile:
+        path: /var/www/html/includes/sys.config.php
+        regexp: "^define('DB_USER'"
+        line: "define('DB_USER', 'projectsend');"
+    - name: Set DB name
+      ansible.builtin.lineinfile:
+        path: /var/www/html/includes/sys.config.php
+        regexp: "^define('DB_PASSWORD'"
+        line: "define('DB_PASSWORD', 'projectsend');"
