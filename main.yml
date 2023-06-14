@@ -4,6 +4,6 @@
   vars_files:
     - shared/vars/dynamic.yml
   roles:
-    - nginxinc.nginx
-    - ansible-role-mariadb-main
+    # - nginxinc.nginx
+    # - ansible-role-mariadb-main
     - projectsend
