@@ -1,12 +1,12 @@
 all:
   hosts:
-    localhost:
-      ansible_host: "localhost"
+    haproxy:
+      ansible_host: "10.25.211.161"
     web1:
-      ansible_host: "web1.lxd"
+      ansible_host: "10.25.211.152"
     web2:
-      ansible_host: "web2.lxd"
+      ansible_host: "10.25.211.253"
     web3:
-      ansible_host: "web3.lxd"
+      ansible_host: "10.25.211.33"
     web4:
-      ansible_host: "web4.lxd"
+      ansible_host: "10.25.211.199"
