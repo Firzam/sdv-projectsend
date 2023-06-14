@@ -1,0 +1,5 @@
+mariadb_users:
+  - name: "{{ db_user }}"
+    priv: "{{ db_name }}.*:ALL"
+mariadb_databases:
+  - name: "{{ db_name }}"
